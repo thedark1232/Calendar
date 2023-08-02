@@ -1,0 +1,96 @@
+package com.my.znak;
+
+public class OTnyck_object {
+
+	private MouKaJieHgapb mouKaJieHgapb;
+	private String str_gaTa_Ha4aJIa_oTnycka;
+	private String str_gaTa_koHca_oTnycka;
+
+	private long long_koJiu4ecTBo_gHey = 0;
+
+	public OTnyck_object(int int_4ucJio, int int_mec9lc, int int_rog) {
+		str_gaTa_Ha4aJIa_oTnycka = ckJieuTb_gaTy(int_4ucJio, int_mec9lc, int_rog);
+		npoBepka_BaJiugHocTu_gaTbl();
+		nepec4eT_koHca_oTnycka();
+		mouKaJieHgapb = new MouKaJieHgapb();
+	}
+
+	public int get_geHb_Ha4aJia() {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		return Integer.parseInt(t_oTnyck[0]);
+	}
+
+	public int get_mec9lc_Ha4aJia() {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		return Integer.parseInt(t_oTnyck[1]);
+	}
+
+	public int get_rog_Ha4aJia() {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		return Integer.parseInt(t_oTnyck[2]);
+	}
+
+	public String get_gaTa_Ha4aJia() {
+		return str_gaTa_Ha4aJIa_oTnycka;
+	}
+
+	public void set_geHb_Ha4aJia(int geHb) {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		str_gaTa_Ha4aJIa_oTnycka = ckJieuTb_gaTy(geHb, Integer.parseInt(t_oTnyck[1]), Integer.parseInt(t_oTnyck[2]));
+		npoBepka_BaJiugHocTu_gaTbl();
+		nepec4eT_koHca_oTnycka();
+	}
+
+	public void set_Mec9lc_Ha4aJia(int mec9lc) {
+		npoBepka_BaJiugHocTu_gaTbl();
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		str_gaTa_Ha4aJIa_oTnycka = ckJieuTb_gaTy(Integer.parseInt(t_oTnyck[0]), mec9lc, Integer.parseInt(t_oTnyck[2]));
+		npoBepka_BaJiugHocTu_gaTbl();
+		nepec4eT_koHca_oTnycka();
+	}
+
+	public void set_rog_Ha4aJia(int rog) {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		str_gaTa_Ha4aJIa_oTnycka = ckJieuTb_gaTy(Integer.parseInt(t_oTnyck[0]), Integer.parseInt(t_oTnyck[1]), rog);
+		npoBepka_BaJiugHocTu_gaTbl();
+		nepec4eT_koHca_oTnycka();
+	}
+
+	public void set_koJiu4ecTBo_gHey_oTnycka(long gHu) {
+		long_koJiu4ecTBo_gHey = gHu;
+		nepec4eT_koHca_oTnycka();
+	}
+
+	public void set_koJiu4ecTBo_gHey_oTnycka(String gHu) {
+		if (gHu != "") {
+			long_koJiu4ecTBo_gHey = Long.parseLong(gHu);
+			nepec4eT_koHca_oTnycka();
+		}
+
+	}
+
+	public String get_gaTa_koHca() {
+		return str_gaTa_koHca_oTnycka;
+	}
+
+	private String ckJieuTb_gaTy(int geHb, int mec9lc, int rog) {
+		return String.format("%02d", geHb) + "-" + String.format("%02d", mec9lc) + "-" + String.format("%04d", rog);
+	}
+
+	private void npoBepka_BaJiugHocTu_gaTbl() {
+		String[] t_oTnyck = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(str_gaTa_Ha4aJIa_oTnycka);
+		int npoBep9leMblu_geHb = Integer.parseInt(t_oTnyck[0]);
+		int Bcero_gHeu_B_mec9lce = mouKaJieHgapb.ckoJibko_gHeu_B_Mec9lce(Integer.parseInt(t_oTnyck[1]),
+				Integer.parseInt(t_oTnyck[2]));
+		if (Bcero_gHeu_B_mec9lce < npoBep9leMblu_geHb) {
+			str_gaTa_Ha4aJIa_oTnycka = ckJieuTb_gaTy(Bcero_gHeu_B_mec9lce, Integer.parseInt(t_oTnyck[1]),
+					Integer.parseInt(t_oTnyck[2]));
+		}
+	}
+
+	private void nepec4eT_koHca_oTnycka() {
+		str_gaTa_koHca_oTnycka = str_gaTa_Ha4aJIa_oTnycka;
+		str_gaTa_koHca_oTnycka = mouKaJieHgapb.npu6aBuTb_gHu_k_gaTe(str_gaTa_koHca_oTnycka, long_koJiu4ecTBo_gHey);
+	}
+
+}
