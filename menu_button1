@@ -1,0 +1,69 @@
+package com.my.znak;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.widget.Toast;
+
+public class menu_button1 extends Activity {
+	
+	MouKaJieHgapb mouKaJieHgapb;
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.menu_button1);
+		
+		mouKaJieHgapb = new MouKaJieHgapb();
+	}
+	
+	public void button_work1_onClick(View view){
+		HaGaTue_Ha_kHonky_Bbl6opa(0);
+	}
+	
+	public void button_work2_onClick(View view){
+		HaGaTue_Ha_kHonky_Bbl6opa(1);
+	}
+	
+	public void button_home1_onClick(View view){
+		HaGaTue_Ha_kHonky_Bbl6opa(2);
+	}
+	
+	public void button_home2_onClick(View view){
+		HaGaTue_Ha_kHonky_Bbl6opa(3);
+	}
+	
+	public void HaGaTue_Ha_kHonky_Bbl6opa(int Homep) {
+		SharedPreferences mSettings = getSharedPreferences(MainActivity.SETTINGS_Ha3BaHue_qpauJia_HacTpoek, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = mSettings.edit();
+		MainActivity.int_Homep_gH9l = Homep;
+		MainActivity.str_gaTa_Homepa_gH9l = mouKaJieHgapb.gaTa_Ha_CerogH9l();
+		
+		editor.putInt(MainActivity.SETTINGS_int_Homep_gH9l, Homep);
+		editor.putString(MainActivity.SETTINGS_gaTa_Homepa_gH9l, MainActivity.str_gaTa_Homepa_gH9l);	
+		editor.apply();
+		Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
+		Bblxog();
+	}
+	
+	
+	public void button_exit_onClick(View view) {
+		Bblxog();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Bblxog();
+	}
+	
+	public void Bblxog(){
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+	}
+	
+	
+}
