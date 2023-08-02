@@ -1,0 +1,332 @@
+package com.my.znak;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.text.style.AlignmentSpan;
+import android.transition.Visibility;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.MenuInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.*;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import java.util.Calendar;
+
+public class MainActivity extends Activity {
+
+	public static final String SETTINGS_Ha3BaHue_qpauJia_HacTpoek = "mySettings";
+	public static final String Tun_int = "int";
+
+	public static final String SETTINGS_int_Homep_gH9l = "int_Homep_gH9l";
+	public static int int_Homep_gH9l = 0; //номер дня от 0 до 3
+	public static final String SETTINGS_gaTa_Homepa_gH9l = "str_gaTa_Homepa_gH9l";
+	public static String str_gaTa_Homepa_gH9l = "01-01-2023";
+	public static final String SETTINGS_str_Ha4aJibHa9l_gaTa_oTnycka = "str_Ha4aJibHa9l_gaTa_oTnycka";
+	public static final String SETTINGS_str_koHe4Ha9l_gaTa_oTnycka = "str_koHe4Ha9l_gaTa_oTnycka";
+
+	private String str_gaTa_okpacKu;
+
+	SharedPreferences mSettings;
+	SharedPreferences.Editor editor;
+
+	GridLayout gridLayout_4ucJia;
+	GridLayout.LayoutParams gridLayoutParams;
+
+	LinearLayout main_layout;
+
+	TextView[] textView_4ucJia;
+	TextView[] textView_debug;
+	private int deb_count = 15; //количество дебаг текстВиев
+	private boolean bool_BuguMocTb_deb_okoH = true;
+
+	private int int_TekyLLluu_Mec9lc;
+	private int int_TekyLLluu_rog;
+	MouKaJieHgapb mouKaJieHgapb = new MouKaJieHgapb();
+
+	TextView textView_Mec9lc;
+	TextView textView_cerogH9l_4ucJio;
+	TextView cerogH9lLLlHee_4ucJio;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		gridLayout_4ucJia = (GridLayout) findViewById(R.id.gridLayout_4ucJia);
+		main_layout = (LinearLayout) findViewById(R.id.main_layout);
+		textView_Mec9lc = (TextView) findViewById(R.id.textView_Mec9lc);
+		textView_cerogH9l_4ucJio = (TextView) findViewById(R.id.textView_cerogH9l_4ucJio);
+
+		mSettings = getSharedPreferences(SETTINGS_Ha3BaHue_qpauJia_HacTpoek, Context.MODE_PRIVATE);
+		editor = mSettings.edit();
+		getSettings();
+
+		int_TekyLLluu_Mec9lc = mouKaJieHgapb.Homep_TekyLLLero_Mec9lca();
+		int_TekyLLluu_rog = mouKaJieHgapb.Homep_TekyLLLero_roga();
+		textView_Mec9lc.setText(
+				MouKaJieHgapb.str_Mec9lc_no_Homepy(int_TekyLLluu_Mec9lc) + ", " + Integer.toString(int_TekyLLluu_rog));
+
+		co3gaTb_Ha3BaHu9l_gHeu_HegeJiu();
+		textView_4ucJia = co3gaTb_Ta6Jiucy_4uceJi(42);
+		textView_debug = co3gaTb_textView_debug(deb_count);
+		textView_debug[0].setText("текщий год= " + Integer.toString(int_TekyLLluu_rog));
+		textView_debug[3]
+				.setText("сохр. дата=" + str_gaTa_Homepa_gH9l + " ном. дня=" + Integer.toString(int_Homep_gH9l));
+		co3gaTb_kaJieHgapb(textView_4ucJia);
+		o6HoBuTb_textView_4uceJi(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+		okpacuTb_pa6o4ue_gHu(textView_4ucJia);
+		oTo6paGeHue_okoH(bool_BuguMocTb_deb_okoH, textView_debug);
+		okpacuTb_geHb_cerogH9l(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+		textView_cerogH9l_4ucJio.setText(ckJienaTb_gaTy_Ha_CerogH9l());
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.my_menu, menu);
+		return true;
+	}
+
+	public void Bbl6op_cMeHbl_onClick(MenuItem item) {
+		Intent intent = new Intent(this, menu_button1.class);
+		startActivity(intent);
+	}
+
+	public void oTnyck_onClick(MenuItem item) {
+		Intent intent = new Intent(this, oTnyck.class);
+		startActivity(intent);
+	}
+
+	private void getSettings() {
+		if (mSettings.contains(SETTINGS_int_Homep_gH9l))
+			int_Homep_gH9l = mSettings.getInt(SETTINGS_int_Homep_gH9l, 0);
+		if (mSettings.contains(SETTINGS_gaTa_Homepa_gH9l))
+			str_gaTa_Homepa_gH9l = mSettings.getString(SETTINGS_gaTa_Homepa_gH9l, "01-01-2010");
+
+	}
+
+	//Создание сокращенных названий для календаря : Пн,Вт,Ср,Чт,Пт,Сб,Вс
+	private void co3gaTb_Ha3BaHu9l_gHeu_HegeJiu() {
+		for (int i = 0; i < 7; i++) {
+			TextView tv = new TextView(this);
+			tv.setText(myCalendar.str_geHb_HegeJiu_cokpaLLleHblu(i));
+			tv.setTypeface(null, Typeface.BOLD);
+			tv.setGravity(1);
+			gridLayoutParams = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f),
+					GridLayout.spec(GridLayout.UNDEFINED, 1f));
+			gridLayout_4ucJia.addView(tv, gridLayoutParams);
+		}
+	}
+
+	private void co3gaTb_kaJieHgapb(TextView[] Ta6Jiuca_4uceJi) {
+		int c4eT4uk = 0;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 1; j < 7; j++) {
+				if (c4eT4uk >= Ta6Jiuca_4uceJi.length)
+					break;
+				gridLayoutParams = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f),
+						GridLayout.spec(GridLayout.UNDEFINED, 1f));
+				gridLayout_4ucJia.addView(Ta6Jiuca_4uceJi[c4eT4uk], gridLayoutParams);
+				c4eT4uk++;
+			}
+		}
+	}
+
+	private TextView[] co3gaTb_Ta6Jiucy_4uceJi(int koJiu4ecTBo_gHeu_B_Mec9lce) {
+		TextView[] t_4ucJia = new TextView[koJiu4ecTBo_gHeu_B_Mec9lce];
+		for (int i = 0; i < koJiu4ecTBo_gHeu_B_Mec9lce; i++) {
+			t_4ucJia[i] = new TextView(this);
+			t_4ucJia[i].setText(Integer.toString(i + 1));
+			t_4ucJia[i].setGravity(Gravity.CENTER);
+			t_4ucJia[i].setMinHeight(100);
+
+		}
+
+		return t_4ucJia;
+	}
+
+	public void o6HoBuTb_textView_4uceJi(TextView[] t_4ucJia, int Mec9lc, int rog) {
+		String gaTa_Ha4aJia_Mec9lca = "01-" + String.format("%02d", Mec9lc) + "-" + Integer.toString(rog);
+		int int_Homep_npoLLlJioro_Mec9lca = Mec9lc - 1;
+		int int_Homep_npoLLlJioro_roga = rog;
+		int c4eT4uk_gHeu = 1;
+
+		if (int_Homep_npoLLlJioro_Mec9lca == 0) {
+			int_Homep_npoLLlJioro_Mec9lca = 12;
+			int_Homep_npoLLlJioro_roga--;
+		}
+
+		int koJiu4ecTBo_gHeu_B_TekyLLleM_Mec9lce = mouKaJieHgapb.ckoJibko_gHeu_B_Mec9lce(Mec9lc, rog);
+		int koJiu4ecTBo_gHeu_B_npoLLlJiom_Mec9lce = mouKaJieHgapb.ckoJibko_gHeu_B_Mec9lce(int_Homep_npoLLlJioro_Mec9lca,
+				int_Homep_npoLLlJioro_roga);
+		int Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca = mouKaJieHgapb.HoMep_gH9l_HegeJiu_no_gaTe(gaTa_Ha4aJia_Mec9lca);
+		Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca--;
+		Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca--;
+		textView_debug[1].setText("дата начала мес=" + gaTa_Ha4aJia_Mec9lca);
+		textView_debug[2].setText("Номео дня нач мес=" + Integer.toString(Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca));
+
+		for (int i = Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca; i > -1; i--) {
+			t_4ucJia[i].setText(Integer.toString(koJiu4ecTBo_gHeu_B_npoLLlJiom_Mec9lce));
+			str_gaTa_okpacKu = String.format("%02d", koJiu4ecTBo_gHeu_B_npoLLlJiom_Mec9lce) + "-"
+					+ String.format("%02d", int_Homep_npoLLlJioro_Mec9lca) + "-"
+					+ Integer.toString(int_Homep_npoLLlJioro_roga);
+			textView_debug[4].setText("дата окраски=" + str_gaTa_okpacKu);
+			koJiu4ecTBo_gHeu_B_npoLLlJiom_Mec9lce--;
+		}
+
+		Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca++;
+		for (int i = Homep_gH9l_HegeJiu_Ha4aJia_Mec9lca; i < t_4ucJia.length; i++) {
+			t_4ucJia[i].setText(Integer.toString(c4eT4uk_gHeu));
+			c4eT4uk_gHeu++;
+			if (c4eT4uk_gHeu > koJiu4ecTBo_gHeu_B_TekyLLleM_Mec9lce)
+				c4eT4uk_gHeu = 1;
+		}
+	}
+
+	public void okpacuTb_pa6o4ue_gHu(TextView[] t_gHu) {
+
+		long KoJi_Bo_gHeu = mouKaJieHgapb.koJiu4ecTBo_gHeu_MeGgy_gaTaMu(str_gaTa_okpacKu, str_gaTa_Homepa_gH9l);
+		if (KoJi_Bo_gHeu < 0)
+			KoJi_Bo_gHeu = mouKaJieHgapb.koJiu4ecTBo_gHeu_MeGgy_gaTaMu(str_gaTa_Homepa_gH9l, str_gaTa_okpacKu);
+		int geHb = mouKaJieHgapb.HoMep_CMeHbl_no_MogyJil0(int_Homep_gH9l, KoJi_Bo_gHeu);
+		textView_debug[5].setText("кол-во дней между датами=" + Long.toString(KoJi_Bo_gHeu));
+		textView_debug[6].setText("день начала=" + geHb);
+		for (int i = 0; i < t_gHu.length; i++) {
+			if (geHb < 2) {
+				t_gHu[i].setBackgroundColor(Color.GREEN);
+			} else {
+				t_gHu[i].setBackgroundColor(Color.WHITE);
+			}
+			geHb++;
+			if (geHb > 3)
+				geHb = 0;
+		}
+	}
+
+	public void okpacuTb_geHb_cerogH9l(TextView[] Ta6Jiuca_gHeu, int npocMaTpuBaeMblu_Mec9lc,
+			int npocMaTpuBaeMblu_rog) {
+
+		String gaTa_cerogH9l = mouKaJieHgapb.gaTa_Ha_CerogH9l();
+		String[] t_gaTa = mouKaJieHgapb.pa36uTb_gaTy_Ha_Ta6Jiucy(gaTa_cerogH9l);
+		int int_gaTa = Integer.parseInt(t_gaTa[0]);
+		int int_Mec9lc = Integer.parseInt(t_gaTa[1]);
+		int int_rog = Integer.parseInt(t_gaTa[2]);
+
+		if (int_Mec9lc == npocMaTpuBaeMblu_Mec9lc & int_rog == npocMaTpuBaeMblu_rog) {
+			int Ha4aJio = 0;
+			String str_4ucJio;
+			int int_4ucJio;
+
+			for (int i = 0; i < Ta6Jiuca_gHeu.length; i++) {
+				str_4ucJio = (String) Ta6Jiuca_gHeu[i].getText();
+				int_4ucJio = Integer.parseInt(str_4ucJio);
+				textView_debug[8].setText("Нет совпадения");
+				boolean b = int_4ucJio == 1;
+				Log.d("str_4ucJio", str_4ucJio + "==1: " + Boolean.toString(b));
+				if (b) {
+					textView_debug[8].setText("Есть совпадение");
+					Ha4aJio = i;
+					break;
+				}
+			}
+
+			for (int i = Ha4aJio; i < Ta6Jiuca_gHeu.length; i++) {
+				str_4ucJio = (String) Ta6Jiuca_gHeu[i].getText();
+				int_4ucJio = Integer.parseInt(str_4ucJio);
+				if (int_gaTa == int_4ucJio) {
+					Ta6Jiuca_gHeu[i].setTypeface(null, Typeface.BOLD);
+					Ta6Jiuca_gHeu[i].setBackgroundColor(Color.BLUE);
+					cerogH9lLLlHee_4ucJio = Ta6Jiuca_gHeu[i];
+					break;
+				}
+			}
+			textView_debug[7].setText("начало табл=" + Integer.toString(Ha4aJio));
+		} else {
+			cerogH9lLLlHee_4ucJio.setTypeface(null, Typeface.NORMAL);
+		}
+	}
+
+	private TextView[] co3gaTb_textView_debug(int KoJiu4ecTBo_gebug_textView) {
+		TextView[] textView_debug = new TextView[KoJiu4ecTBo_gebug_textView];
+
+		for (int i = 0; i < KoJiu4ecTBo_gebug_textView; i++) {
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT);
+			textView_debug[i] = new TextView(this);
+			textView_debug[i].setText("дебаг" + i);
+			textView_debug[i].setLayoutParams(params);
+
+			main_layout.addView(textView_debug[i]);
+
+		}
+
+		return textView_debug;
+	}
+
+	public void button_Mec9lc_Ha3ag_OnClick(View view) {
+		int_TekyLLluu_Mec9lc--;
+		if (int_TekyLLluu_Mec9lc == 0) {
+			int_TekyLLluu_Mec9lc = 12;
+			int_TekyLLluu_rog--;
+			textView_debug[0].setText("текщий год= " + Integer.toString(int_TekyLLluu_rog));
+		}
+
+		textView_Mec9lc.setText(
+				MouKaJieHgapb.str_Mec9lc_no_Homepy(int_TekyLLluu_Mec9lc) + ", " + Integer.toString(int_TekyLLluu_rog));
+		o6HoBuTb_textView_4uceJi(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+		okpacuTb_pa6o4ue_gHu(textView_4ucJia);
+		okpacuTb_geHb_cerogH9l(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+	}
+
+	public void button_Mec9lc_Bnepeg_OnClick(View view) {
+		int_TekyLLluu_Mec9lc++;
+		if (int_TekyLLluu_Mec9lc == 13) {
+			int_TekyLLluu_Mec9lc = 1;
+			int_TekyLLluu_rog++;
+			textView_debug[0].setText("текщий год= " + Integer.toString(int_TekyLLluu_rog));
+		}
+
+		textView_Mec9lc.setText(
+				MouKaJieHgapb.str_Mec9lc_no_Homepy(int_TekyLLluu_Mec9lc) + ", " + Integer.toString(int_TekyLLluu_rog));
+		o6HoBuTb_textView_4uceJi(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+		okpacuTb_pa6o4ue_gHu(textView_4ucJia);
+		okpacuTb_geHb_cerogH9l(textView_4ucJia, int_TekyLLluu_Mec9lc, int_TekyLLluu_rog);
+	}
+
+	public void oTo6paGeHue_okoH(boolean BugHbl, TextView[] Ta6Jiuca_textView) {
+		int visible = View.GONE;
+		if (BugHbl)
+			visible = View.VISIBLE;
+
+		for (TextView tv : Ta6Jiuca_textView) {
+			tv.setVisibility(visible);
+		}
+
+	}
+
+	private String ckJienaTb_gaTy_Ha_CerogH9l() {
+		String re3yJibTaT = "Сегодня: ";
+
+		String str_gaTa_cerogH9l = mouKaJieHgapb.gaTa_Ha_CerogH9l();
+		re3yJibTaT = re3yJibTaT + str_gaTa_cerogH9l + ", ";
+
+		int int_Homep_gH9l_cerogH9l = mouKaJieHgapb.HoMep_gH9l_HegeJiu_no_gaTe(str_gaTa_cerogH9l);
+		String str_geHb_cerogH9l = MouKaJieHgapb.str_geHb_HegeJiu(int_Homep_gH9l_cerogH9l);
+		re3yJibTaT = re3yJibTaT + str_geHb_cerogH9l;
+
+		return re3yJibTaT;
+	}
+
+}
