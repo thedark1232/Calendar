@@ -1,0 +1,154 @@
+package com.my.znak;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class oTnyck extends Activity {
+
+	MouKaJieHgapb mouKaJieHgapb;
+	OTnyck_object oTnyck_object;
+	
+	String[] maccuB_4uceJi;
+	String[] maccuB_mec9lceB;
+	String[] maccuB_JieT;
+
+	Spinner spinner_4ucJio;
+	Spinner spinner_Mec9lc;
+	Spinner spinner_rog;
+	
+	LinearLayout main_layout;
+	TextView[] textView_debug;
+	private int deb_count = 3; //количество дебаг текстВиев
+	private boolean bool_BuguMocTb_deb_okoH = true;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.otnyck);
+
+		mouKaJieHgapb = new MouKaJieHgapb();
+		
+		main_layout = (LinearLayout) findViewById(R.id.main_layout);
+		textView_debug = co3gaTb_textView_debug(deb_count);
+
+
+		spinner_4ucJio = (Spinner) findViewById(R.id.spinner_4ucJio);
+		spinner_Mec9lc = (Spinner) findViewById(R.id.spinner_Mec9lc);
+		spinner_rog = (Spinner) findViewById(R.id.spinner_rog);
+		
+		spinner_Mec9lc.setAdapter(co3gaTb_adapter(co3gaTb_maccuB_Mec9lceB()));
+		spinner_rog.setAdapter(co3gaTb_adapter(co3gaTb_maccuB_JieT()));
+		
+		
+		
+		//spinner_4ucJio.setOnItemSelectedListener(itemSelectedListener);
+		//spinner_Mec9lc.setOnItemSelectedListener(itemSelectedListener);
+		spinner_rog.setOnItemSelectedListener(set_cJiyLLlaTeJib_roga());
+	}
+
+	public ArrayAdapter<String> co3gaTb_adapter(String[] maccuB_gJi9l_adaptera) {
+
+		// Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
+		ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, maccuB_gJi9l_adaptera);
+		// Определяем разметку для использования при выборе элемента
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Применяем адаптер к элементу spinner
+		return adapter;
+	}
+	/*
+	private String[] co3gaTb_maccuB_4uceJi(int TekyLLluu_Mec9lc, int TekyLLluu_rog){
+		
+	}
+	*/
+	private String[] co3gaTb_maccuB_Mec9lceB(){
+		String[] t = new String[12];
+		for(int i = 0; i < t.length; i++) t[i] = String.format("%02d", i + 1);
+		return t;
+	}
+		
+	private String[] co3gaTb_maccuB_JieT(){
+		String[] t = new String[10];
+		int c = -2;
+		int TekyLLluu_rog = Integer.parseInt(mouKaJieHgapb.str_rog_cerogH9l());
+		for(int i = 0; i < t.length; i++){
+			t[i] = Integer.toString(TekyLLluu_rog + c);
+			c++;
+		}
+		
+		return t;
+	}
+	
+	
+
+	public void button_exit_onClick(View view) {
+		Bblxog();
+	}
+
+	@Override
+	public void onBackPressed() {
+		Bblxog();
+	}
+
+	public void Bblxog() {
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+	}
+	
+	private TextView[] co3gaTb_textView_debug(int KoJiu4ecTBo_gebug_textView) {
+		TextView[] textView_debug = new TextView[KoJiu4ecTBo_gebug_textView];
+		
+		for (int i = 0; i < KoJiu4ecTBo_gebug_textView; i++) {
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT);
+			textView_debug[i] = new TextView(this);
+			textView_debug[i].setText("дебаг" + i);
+			textView_debug[i].setLayoutParams(params);
+			
+			main_layout.addView(textView_debug[i]);
+			
+		}
+		
+		return textView_debug;
+	}
+	
+	public void oTo6paGeHue_okoH(boolean BugHbl, TextView[] Ta6Jiuca_textView) {
+		int visible = View.GONE;
+		if (BugHbl)
+		visible = View.VISIBLE;
+		
+		for (TextView tv : Ta6Jiuca_textView) {
+			tv.setVisibility(visible);
+		}
+		
+	}
+	
+	public AdapterView.OnItemSelectedListener set_cJiyLLlaTeJib_roga() {
+		AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				
+				// Получаем выбранный объект
+				String item = (String)parent.getItemAtPosition(position);
+				textView_debug[0].setText(item);
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		};
+		return itemSelectedListener;
+	}
+	
+}
