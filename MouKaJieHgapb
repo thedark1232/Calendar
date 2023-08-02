@@ -1,0 +1,267 @@
+package com.my.znak;
+
+import android.util.Log;
+import android.widget.Toast;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class MouKaJieHgapb {
+
+	DateTimeFormatter formatter;
+	String str_gaTa_cerogH9l;
+
+	public MouKaJieHgapb() {
+		formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		str_gaTa_cerogH9l = formatter.format(LocalDateTime.now());
+	}
+
+	public int HoMep_CMeHbl_no_MogyJil0(int correction, long CkoJIbko_gHeu_npoLLlJIo) {
+		int day_n = 0;
+
+		day_n = (int) CkoJIbko_gHeu_npoLLlJIo % 4;
+		day_n = method_correction(day_n, correction);
+
+		return day_n;
+	}
+
+	//сколько дней между (дата младшая, дата старшая)
+	public long koJiu4ecTBo_gHeu_MeGgy_gaTaMu(String nepBa9I_gaTa, String BTopa9I_gaTa) {
+		long npoLLlJIo_gHeu = 0;
+
+		LocalDate startDate = LocalDate.parse(nepBa9I_gaTa, formatter);
+		LocalDate endDate = LocalDate.parse(BTopa9I_gaTa, formatter);
+
+		npoLLlJIo_gHeu = Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay()).toDays();
+		String log_d = "между " + nepBa9I_gaTa + " и " + BTopa9I_gaTa + " = " + String.valueOf(npoLLlJIo_gHeu);
+		Log.d("myLog", log_d);
+		return npoLLlJIo_gHeu;
+	}
+
+	private int method_correction(int gHu, int correction) {
+		for (int i = 0; i < correction; i++) {
+
+			gHu++;
+			if (gHu == 4)
+				gHu = 0;
+		}
+		return gHu;
+	}
+
+	public String str_geHb_cerogH9l(int Homep_gH9l) {
+		String[] gHu = new String[4];
+		gHu[0] = "1 рабочий день";
+		gHu[1] = "2 рабочий день";
+		gHu[2] = "1 выходной день";
+		gHu[3] = "2 выходной день";
+
+		return gHu[Homep_gH9l];
+	}
+
+	public int Homep_TekyLLLero_Mec9lca() {
+		String[] Ta6Jiuca_gaT = pa36uTb_gaTy_Ha_Ta6Jiucy(gaTa_Ha_CerogH9l());
+		return Integer.parseInt(Ta6Jiuca_gaT[1]);
+	}
+
+	public int Homep_TekyLLLero_roga() {
+		String[] Ta6Jiuca_gaT = pa36uTb_gaTy_Ha_Ta6Jiucy(gaTa_Ha_CerogH9l());
+		return Integer.parseInt(Ta6Jiuca_gaT[2]);
+	}
+
+	public String gaTa_Ha_CerogH9l() {
+		return str_gaTa_cerogH9l;
+	}
+
+	public String Bbl4ecTb_oguH_geHb_u3_gaTbl(String gaTa) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.minusDays(1));
+	}
+
+	public String npu6aBuTb_oguH_geHb_k_gaTe(String gaTa) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.plusDays(1));
+	}
+
+	public String Bbl4ecTb_gHu_u3_gaTbl(String gaTa, long gHu) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.minusDays(gHu));
+	}
+
+	public String npu6aBuTb_gHu_k_gaTe(String gaTa, long gHu) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.plusDays(gHu));
+	}
+
+	public String Bbl4ecTb_oguH_Mec9lc_k_gaTe(String gaTa) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.minusMonths(1));
+	}
+
+	public String npu6aBuTb_oguH_Mec9lc_k_gaTe(String gaTa) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		return formatter.format(ld.plusMonths(1));
+	}
+
+	public int ckoJibko_gHeu_B_Mec9lce(int Mec9lc, int god) {
+		LocalDate d = LocalDate.of(god, Mec9lc, 1);
+		return d.lengthOfMonth();
+	}
+
+	public String[] pa36uTb_gaTy_Ha_Ta6Jiucy(String gaTa) {
+		String[] Ta6Jiuca = gaTa.split("-");
+		return Ta6Jiuca;
+	}
+
+	public String Ha3BaHue_gH9l_HegeJiu_no_gaTe(String gaTa) {
+		return str_geHb_HegeJiu(HoMep_gH9l_HegeJiu_no_gaTe(gaTa));
+	}
+
+	public int HoMep_gH9l_HegeJiu_no_gaTe(String gaTa) {
+		LocalDate ld = LocalDate.parse(gaTa, formatter);
+		DayOfWeek gEHb = ld.getDayOfWeek();
+		return gEHb.getValue();
+	}
+
+	public static String str_geHb_HegeJiu(int HoMep_gH9l) {
+		String pe3yJibTaT = "";
+
+		switch (HoMep_gH9l) {
+		case (1):
+			pe3yJibTaT = "Понедельник";
+			break;
+		case (2):
+			pe3yJibTaT = "Вторник";
+			break;
+		case (3):
+			pe3yJibTaT = "Среда";
+			break;
+		case (4):
+			pe3yJibTaT = "Четверг";
+			break;
+		case (5):
+			pe3yJibTaT = "Пятница";
+			break;
+		case (6):
+			pe3yJibTaT = "Суббота";
+			break;
+		case (7):
+			pe3yJibTaT = "Воскресенье";
+			break;
+		}
+
+		return pe3yJibTaT;
+	}
+
+	public String cMecTuTb_gaTu_BHu3_ecJiu_BblxogHou(String gaTa) {
+		int Homep_gH9l = HoMep_gH9l_HegeJiu_no_gaTe(gaTa);
+		int koJiu4ecTBo_gHeu = 0;
+
+		switch (Homep_gH9l) {
+		case 6:
+			koJiu4ecTBo_gHeu = 1;
+			break;
+		case 7:
+			koJiu4ecTBo_gHeu = 2;
+			break;
+		}
+
+		for (int i = 0; i < koJiu4ecTBo_gHeu; i++)
+			gaTa = Bbl4ecTb_oguH_geHb_u3_gaTbl(gaTa);
+
+		return gaTa;
+
+	}
+
+	//в аргументе день начинаеься с нуля
+	public static String str_geHb_HegeJiu_cokpaLLleHblu(int geHb) {
+		String str_geHb = "";
+		switch (geHb) {
+		case 0:
+			str_geHb = "Пн";
+			break;
+
+		case 1:
+			str_geHb = "Вт";
+			break;
+
+		case 2:
+			str_geHb = "Ср";
+			break;
+
+		case 3:
+			str_geHb = "Чт";
+			break;
+
+		case 4:
+			str_geHb = "Пт";
+			break;
+
+		case 5:
+			str_geHb = "Сб";
+			break;
+
+		case 6:
+			str_geHb = "Вс";
+			break;
+		}
+
+		return str_geHb;
+
+	}
+
+	//название мемяца по числу от 1 до 12
+	public static String str_Mec9lc_no_Homepy(int Homep_Mec9lca) {
+		String pe3yJibTaT = "ошибка";
+		switch (Homep_Mec9lca) {
+		case (1):
+			pe3yJibTaT = "Январь";
+			break;
+		case (2):
+			pe3yJibTaT = "Февраль";
+			break;
+		case (3):
+			pe3yJibTaT = "Март";
+			break;
+		case (4):
+			pe3yJibTaT = "Апрель";
+			break;
+		case (5):
+			pe3yJibTaT = "Май";
+			break;
+		case (6):
+			pe3yJibTaT = "Июнь";
+			break;
+		case (7):
+			pe3yJibTaT = "Июль";
+			break;
+		case (8):
+			pe3yJibTaT = "Август";
+			break;
+		case (9):
+			pe3yJibTaT = "Сентябрь";
+			break;
+		case (10):
+			pe3yJibTaT = "Октябрь";
+			break;
+		case (11):
+			pe3yJibTaT = "Ноябрь";
+			break;
+		case (12):
+			pe3yJibTaT = "Декабрь";
+			break;
+
+		}
+		return pe3yJibTaT;
+	}
+
+	public int Blb4ucJiuTb_cMeHy_Ha_gaTy(String gaTa_u3_coxpaHeHuu, int Homep_cmeHbl_u3_coxpaHeHuu,
+			String TekyLlla9l_gaTa) {
+
+		long lng_koJiu4ecTBo_gHeu_MeGgy_gaTaMu = koJiu4ecTBo_gHeu_MeGgy_gaTaMu(gaTa_u3_coxpaHeHuu, TekyLlla9l_gaTa);
+		return HoMep_CMeHbl_no_MogyJil0(Homep_cmeHbl_u3_coxpaHeHuu, lng_koJiu4ecTBo_gHeu_MeGgy_gaTaMu);
+	}
+
+}
